@@ -1402,12 +1402,14 @@ footer {
   /* David Harding screenshot */
   .art-preview .browser-content {
     height: clamp(245px, 76vw, 330px);
+    min-height: 0 !important;
     overflow: hidden;
   }
 
   /* Margie Harding screenshot */
   .author-preview .browser-content {
     height: clamp(235px, 73vw, 315px);
+    min-height: 0 !important;
     overflow: hidden;
   }
 
