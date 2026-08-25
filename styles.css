@@ -1,13 +1,13 @@
 :root {
-  --cream: #f5f0e8;
-  --cream-deep: #e8dfd3;
-  --cream-light: #faf7f1;
+  --cream: #f8f5ef;
+  --cream-deep: #eee8df;
+  --cream-light: #fcfaf6;
   --ink: #1b1b1a;
   --charcoal: #4a4a48;
   --taupe: #a79984;
   --sand: #cdb79b;
   --rust: #bd5b34;
-  --line: rgba(27, 27, 26, 0.16);
+  --line: rgba(27, 27, 26, 0.14);
 
   --serif: "Cormorant Garamond", Georgia, serif;
   --sans: "Inter", Arial, sans-serif;
@@ -53,12 +53,6 @@ input,
 textarea {
   font: inherit;
 }
-
-
-/* IMPORTANT:
-   Reveal classes remain visible by default.
-   We are NOT hiding content with CSS.
-*/
 
 .reveal {
   opacity: 1;
@@ -492,9 +486,6 @@ h3 {
   gap: clamp(90px, 10vw, 145px);
 }
 
-
-/* CASE STUDY */
-
 .case-study {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
@@ -516,9 +507,6 @@ h3 {
   grid-row: 1;
 }
 
-
-/* Browser presentation */
-
 .browser-preview {
   display: block;
   min-width: 0;
@@ -527,7 +515,7 @@ h3 {
   border: 1px solid rgba(27, 27, 26, 0.14);
   background: var(--cream-light);
 
-  box-shadow: 0 28px 65px rgba(40, 34, 28, 0.12);
+  box-shadow: 0 28px 65px rgba(40, 34, 28, 0.10);
 
   transition:
     transform 0.25s ease,
@@ -536,7 +524,7 @@ h3 {
 
 .browser-preview:hover {
   transform: translateY(-4px);
-  box-shadow: 0 36px 80px rgba(40, 34, 28, 0.16);
+  box-shadow: 0 36px 80px rgba(40, 34, 28, 0.13);
 }
 
 .browser-bar {
@@ -547,8 +535,8 @@ h3 {
   align-items: center;
   gap: 7px;
 
-  background: #ece7de;
-  border-bottom: 1px solid rgba(27, 27, 26, 0.11);
+  background: #f1ede6;
+  border-bottom: 1px solid rgba(27, 27, 26, 0.10);
 }
 
 .browser-bar span {
@@ -591,8 +579,8 @@ h3 {
   background:
     linear-gradient(
       135deg,
-      #faf6ef 0%,
-      #eee4d6 100%
+      #fdfbf7 0%,
+      #f3ede4 100%
     );
 
   color: var(--ink);
@@ -630,9 +618,6 @@ h3 {
   color: #cbc5bd;
 }
 
-
-/* Case study copy */
-
 .case-study-copy {
   max-width: 560px;
 }
@@ -668,20 +653,17 @@ h3 {
 
 .project-details span {
   padding: 7px 11px;
-  border: 1px solid rgba(27, 27, 26, 0.18);
+  border: 1px solid rgba(27, 27, 26, 0.16);
 
   font-size: 9px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-
-/* Portfolio note */
-
 .portfolio-note {
   margin-top: 110px;
   padding-top: 32px;
-  border-top: 1px solid rgba(27, 27, 26, 0.18);
+  border-top: 1px solid rgba(27, 27, 26, 0.16);
 
   display: flex;
   justify-content: space-between;
@@ -782,7 +764,7 @@ h3 {
 
 .investment {
   padding: var(--section-space) var(--page-pad);
-  background: #d6c7b5;
+  background: #e7ddd0;
 
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
@@ -851,7 +833,7 @@ h3 {
   justify-content: space-between;
 
   border: 1px solid rgba(27, 27, 26, 0.10);
-  box-shadow: 0 28px 58px rgba(40, 34, 28, 0.12);
+  box-shadow: 0 28px 58px rgba(40, 34, 28, 0.10);
 }
 
 .publication span {
@@ -876,14 +858,14 @@ h3 {
 .publication-taupe {
   left: 29%;
   bottom: 55px;
-  background: #ad997d;
+  background: #b8a78f;
   color: #fff;
   transform: rotate(1deg);
 }
 
 .publication-light {
   left: 56%;
-  background: #eee3d5;
+  background: #f3ebdf;
   color: var(--ink);
   transform: rotate(7deg);
 }
