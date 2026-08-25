@@ -37,6 +37,135 @@
         padding-top: 110px;
       }
     }
+
+    /* ========================================
+       PROJECT INQUIRY FORM
+    ========================================= */
+
+    .project-form {
+      width: min(900px, 100%);
+      margin: 48px auto 0;
+      text-align: left;
+    }
+
+    .project-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px 32px;
+    }
+
+    .project-field {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .project-field-full {
+      grid-column: 1 / -1;
+    }
+
+    .project-field label {
+      font-family: "Inter", sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #2a2825;
+    }
+
+    .project-field input,
+    .project-field select,
+    .project-field textarea {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid rgba(42, 40, 37, 0.18);
+      border-radius: 0;
+      background: rgba(255, 255, 255, 0.42);
+      color: #1d1c1a;
+      font-family: "Inter", sans-serif;
+      font-size: 0.98rem;
+      line-height: 1.5;
+      padding: 16px 18px;
+      outline: none;
+      transition: border-color 160ms ease, background-color 160ms ease;
+    }
+
+    .project-field textarea {
+      min-height: 180px;
+      resize: vertical;
+    }
+
+    .project-field input::placeholder,
+    .project-field textarea::placeholder {
+      color: rgba(42, 40, 37, 0.48);
+    }
+
+    .project-field input:focus,
+    .project-field select:focus,
+    .project-field textarea:focus {
+      border-color: #bd5732;
+      background: rgba(255, 255, 255, 0.68);
+    }
+
+    .project-form-actions {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      margin-top: 6px;
+    }
+
+    .project-form .button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .project-form .button[disabled] {
+      cursor: wait;
+      opacity: 0.65;
+    }
+
+    .form-status {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #5f5a54;
+    }
+
+    .form-status.is-error {
+      color: #9a3c26;
+    }
+
+    .form-status.is-success {
+      color: #4b634e;
+    }
+
+    @media (max-width: 720px) {
+      .project-form {
+        margin-top: 36px;
+      }
+
+      .project-form-grid {
+        grid-template-columns: 1fr;
+        gap: 22px;
+      }
+
+      .project-field-full,
+      .project-form-actions {
+        grid-column: auto;
+      }
+
+      .project-form-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .project-form .button {
+        width: 100%;
+      }
+    }
+
   </style>
 </head>
 
@@ -759,7 +888,7 @@
 
 
     <!-- ========================================
-         CONTACT
+         CONTACT / PROJECT INQUIRY
     ========================================= -->
 
     <section class="contact" id="contact">
@@ -774,22 +903,133 @@
       </h2>
 
       <p class="reveal">
-        Tell me what you're working on, where you are now and what you'd like
-        your website — or select publishing project — to accomplish.
+        Whether you're starting from scratch or rethinking an existing site,
+        tell me a little about what you're working on. I'll review it personally
+        and get back to you about the best next step.
       </p>
 
 
-      <div class="contact-actions reveal">
+      <form class="project-form reveal" id="project-form">
 
-        <a
-          class="button"
-          href="mailto:hello@paintedgatecreative.com?subject=Painted%20Gate%20Creative%20Project%20Inquiry"
-        >
-          Start the Conversation
-          <span>→</span>
-        </a>
+        <div class="project-form-grid">
 
-      </div>
+          <div class="project-field">
+
+            <label for="contact-name">
+              Name
+            </label>
+
+            <input
+              id="contact-name"
+              name="name"
+              type="text"
+              autocomplete="name"
+              required
+            >
+
+          </div>
+
+
+          <div class="project-field">
+
+            <label for="contact-email">
+              Email
+            </label>
+
+            <input
+              id="contact-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+            >
+
+          </div>
+
+
+          <div class="project-field">
+
+            <label for="contact-website">
+              Current Website <span aria-hidden="true">— Optional</span>
+            </label>
+
+            <input
+              id="contact-website"
+              name="website"
+              type="url"
+              inputmode="url"
+              autocomplete="url"
+              placeholder="https://"
+            >
+
+          </div>
+
+
+          <div class="project-field">
+
+            <label for="contact-project">
+              What are you looking for?
+            </label>
+
+            <select
+              id="contact-project"
+              name="project"
+              required
+            >
+              <option value="" selected disabled>
+                Select one
+              </option>
+              <option value="New website">
+                New website
+              </option>
+              <option value="Website redesign">
+                Website redesign
+              </option>
+              <option value="Select publishing project">
+                Select publishing project
+              </option>
+              <option value="Not sure yet">
+                Not sure yet
+              </option>
+            </select>
+
+          </div>
+
+
+          <div class="project-field project-field-full">
+
+            <label for="contact-message">
+              Tell me a little about the project
+            </label>
+
+            <textarea
+              id="contact-message"
+              name="message"
+              required
+            ></textarea>
+
+          </div>
+
+
+          <div class="project-form-actions">
+
+            <button class="button" type="submit">
+              Send Inquiry
+              <span>→</span>
+            </button>
+
+            <p
+              class="form-status"
+              id="form-status"
+              role="status"
+              aria-live="polite"
+            ></p>
+
+          </div>
+
+        </div>
+
+      </form>
 
     </section>
 
