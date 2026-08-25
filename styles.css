@@ -1443,8 +1443,29 @@ footer {
     margin-bottom: 34px;
   }
 
+  /* Mobile pricing refinement */
+  .investment {
+    gap: 30px;
+    padding-top: 68px;
+    padding-bottom: 68px;
+  }
+
+  .investment h2 {
+    font-size: clamp(42px, 11.5vw, 54px);
+    line-height: 0.98;
+  }
+
+  .investment-copy > p {
+    margin-bottom: 18px;
+  }
+
   .investment-copy strong {
-    font-size: 78px;
+    margin: 6px 0 22px;
+    font-size: 68px;
+  }
+
+  .investment-copy .button {
+    margin-top: 12px;
   }
 
   .publishing-art {
