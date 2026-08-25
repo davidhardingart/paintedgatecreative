@@ -4,28 +4,25 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, project, message } = req.body || {};
+    const { name, email, website, project, message } = req.body || {};
 
-    if (!name || !email || !message) {
+    if (!name || !email || !project || !message) {
       return res.status(400).json({
-        error: "Please complete your name, email, and message.",
+        error: "Please complete all required fields.",
       });
     }
 
-    const cleanName = String(name).trim();
-    const cleanEmail = String(email).trim();
-    const cleanProject = String(project || "Not specified").trim();
-    const cleanMessage = String(message).trim();
+    const apiKey = process.env.RESEND_API_KEY;
 
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!apiKey) {
+      console.error("RESEND_API_KEY is not configured.");
 
-    if (!emailPattern.test(cleanEmail)) {
-      return res.status(400).json({
-        error: "Please enter a valid email address.",
+      return res.status(500).json({
+        error: "Email service is not configured.",
       });
     }
 
-    const escapeHtml = (value) =>
+    const escapeHtml = (value = "") =>
       String(value)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
@@ -33,30 +30,55 @@ export default async function handler(req, res) {
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safeWebsite = escapeHtml(website || "Not provided");
+    const safeProject = escapeHtml(project);
+    const safeMessage = escapeHtml(message).replace(/\n/g, "<br>");
+
     const response = await fetch("https://api.resend.com/emails", {
       method: "POST",
+
       headers: {
-        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+        Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
+
       body: JSON.stringify({
         from: "Painted Gate Creative <hello@paintedgatecreative.com>",
         to: ["hello@paintedgatecreative.com"],
-        reply_to: cleanEmail,
-        subject: `New website inquiry from ${cleanName}`,
+        reply_to: email,
+
+        subject: `New website inquiry from ${name}`,
+
         html: `
           <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #222;">
             <h2>New Painted Gate Creative Inquiry</h2>
 
-            <p><strong>Name:</strong> ${escapeHtml(cleanName)}</p>
+            <p>
+              <strong>Name:</strong><br>
+              ${safeName}
+            </p>
 
-            <p><strong>Email:</strong> ${escapeHtml(cleanEmail)}</p>
+            <p>
+              <strong>Email:</strong><br>
+              ${safeEmail}
+            </p>
 
-            <p><strong>Project:</strong> ${escapeHtml(cleanProject)}</p>
+            <p>
+              <strong>Current Website:</strong><br>
+              ${safeWebsite}
+            </p>
 
-            <p><strong>Message:</strong></p>
+            <p>
+              <strong>Project Type:</strong><br>
+              ${safeProject}
+            </p>
 
-            <p>${escapeHtml(cleanMessage).replace(/\n/g, "<br>")}</p>
+            <p>
+              <strong>Project Details:</strong><br>
+              ${safeMessage}
+            </p>
           </div>
         `,
       }),
@@ -67,14 +89,13 @@ export default async function handler(req, res) {
     if (!response.ok) {
       console.error("Resend error:", data);
 
-      return res.status(500).json({
+      return res.status(response.status).json({
         error: "The message could not be sent. Please try again.",
       });
     }
 
     return res.status(200).json({
       success: true,
-      message: "Your message has been sent.",
     });
   } catch (error) {
     console.error("Contact form error:", error);
