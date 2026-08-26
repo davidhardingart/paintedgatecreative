@@ -6,7 +6,7 @@
   --charcoal: #4a4a48;
   --taupe: #a79984;
   --sand: #cdb79b;
-  --rust: #bd5b34;
+  --rust: #a84b2c;
   --line: rgba(27, 27, 26, 0.14);
 
   --serif: "Cormorant Garamond", Georgia, serif;
@@ -475,7 +475,7 @@ h3 {
 
 .section-head-copy .quiet {
   margin-bottom: 0;
-  color: #766f67;
+  color: #69635c;
   font-family: var(--serif);
   font-size: 16px;
   font-style: italic;
@@ -548,7 +548,7 @@ h3 {
 
 .browser-bar small {
   margin-left: 13px;
-  color: #777068;
+  color: #69635c;
   font-size: 9px;
   letter-spacing: 0.05em;
 }
@@ -859,7 +859,7 @@ h3 {
   left: 29%;
   bottom: 55px;
   background: #b8a78f;
-  color: #fff;
+  color: var(--ink);
   transform: rotate(1deg);
 }
 
