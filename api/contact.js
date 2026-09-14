@@ -46,8 +46,11 @@ export default async function handler(req, res) {
     if (!response.ok || data.success === false) {
       console.error("Web3Forms error:", data);
 
-      return res.status(500).json({
-        error: "The message could not be sent. Please try again.",
+      return res.status(response.status || 500).json({
+        error:
+          data.message ||
+          data.error ||
+          `Web3Forms rejected the submission (HTTP ${response.status}).`,
       });
     }
 
@@ -58,7 +61,7 @@ export default async function handler(req, res) {
     console.error("Contact form error:", error);
 
     return res.status(500).json({
-      error: "Something went wrong. Please try again.",
+      error: error?.message || "Something went wrong. Please try again.",
     });
   }
 }
