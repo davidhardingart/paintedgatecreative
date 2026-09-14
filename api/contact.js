@@ -12,84 +12,40 @@ export default async function handler(req, res) {
       });
     }
 
-    const apiKey = process.env.RESEND_API_KEY;
+    const accessKey = process.env.WEB3FORMS_ACCESS_KEY;
 
-    if (!apiKey) {
-      console.error("RESEND_API_KEY is not configured.");
+    if (!accessKey) {
+      console.error("WEB3FORMS_ACCESS_KEY is not configured.");
 
       return res.status(500).json({
         error: "Email service is not configured.",
       });
     }
 
-    const escapeHtml = (value = "") =>
-      String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-    const safeName = escapeHtml(name);
-    const safeEmail = escapeHtml(email);
-    const safeWebsite = escapeHtml(website || "Not provided");
-    const safeProject = escapeHtml(project);
-    const safeMessage = escapeHtml(message).replace(/\n/g, "<br>");
-
-    const response = await fetch("https://api.resend.com/emails", {
+    const response = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
-
       headers: {
-        Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
-
       body: JSON.stringify({
-        from: "Painted Gate Creative <hello@paintedgatecreative.com>",
-        to: ["hello@paintedgatecreative.com"],
-        reply_to: email,
-
+        access_key: accessKey,
         subject: `New website inquiry from ${name}`,
-
-        html: `
-          <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #222;">
-            <h2>New Painted Gate Creative Inquiry</h2>
-
-            <p>
-              <strong>Name:</strong><br>
-              ${safeName}
-            </p>
-
-            <p>
-              <strong>Email:</strong><br>
-              ${safeEmail}
-            </p>
-
-            <p>
-              <strong>Current Website:</strong><br>
-              ${safeWebsite}
-            </p>
-
-            <p>
-              <strong>Project Type:</strong><br>
-              ${safeProject}
-            </p>
-
-            <p>
-              <strong>Project Details:</strong><br>
-              ${safeMessage}
-            </p>
-          </div>
-        `,
+        from_name: "Painted Gate Creative Website",
+        name,
+        email,
+        website: website || "Not provided",
+        project,
+        message,
       }),
     });
 
-    const data = await response.json();
+    const data = await response.json().catch(() => ({}));
 
-    if (!response.ok) {
-      console.error("Resend error:", data);
+    if (!response.ok || data.success === false) {
+      console.error("Web3Forms error:", data);
 
-      return res.status(response.status).json({
+      return res.status(500).json({
         error: "The message could not be sent. Please try again.",
       });
     }
