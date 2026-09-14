@@ -31,14 +31,6 @@ if (projectForm && formStatus) {
     const submitButton = projectForm.querySelector('button[type="submit"]');
     const formData = new FormData(projectForm);
 
-    const payload = {
-      name: String(formData.get("name") || "").trim(),
-      email: String(formData.get("email") || "").trim(),
-      website: String(formData.get("website") || "").trim(),
-      project: String(formData.get("project") || "").trim(),
-      message: String(formData.get("message") || "").trim(),
-    };
-
     formStatus.textContent = "Sending your inquiry…";
     formStatus.classList.remove("is-error", "is-success");
 
@@ -47,19 +39,40 @@ if (projectForm && formStatus) {
     }
 
     try {
-      const response = await fetch("/api/contact", {
+      const keyResponse = await fetch("/api/contact-key");
+      const keyData = await keyResponse.json().catch(() => ({}));
+
+      if (!keyResponse.ok || !keyData.accessKey) {
+        throw new Error(
+          keyData.error || "The contact form is not configured."
+        );
+      }
+
+      const payload = {
+        access_key: keyData.accessKey,
+        subject: `New website inquiry from ${String(formData.get("name") || "").trim()}`,
+        from_name: "Painted Gate Creative Website",
+        name: String(formData.get("name") || "").trim(),
+        email: String(formData.get("email") || "").trim(),
+        website: String(formData.get("website") || "").trim() || "Not provided",
+        project: String(formData.get("project") || "").trim(),
+        message: String(formData.get("message") || "").trim(),
+      };
+
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json",
         },
         body: JSON.stringify(payload),
       });
 
       const data = await response.json().catch(() => ({}));
 
-      if (!response.ok) {
+      if (!response.ok || data.success === false) {
         throw new Error(
-          data.error || "The message could not be sent. Please try again."
+          data.message || "The message could not be sent. Please try again."
         );
       }
 
